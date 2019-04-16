@@ -89,7 +89,7 @@
 			]				
 		}
 	},
-	"$id": "http://curriculum.slo.nl/schemas/kerndoel",
+	"$id": "http://curriculum.slo.nl/schemas/curriculum-kerndoelen/context.json",
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"type": "object",
 	"properties": {
