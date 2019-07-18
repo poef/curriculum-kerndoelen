@@ -1,46 +1,12 @@
 {
 	"definitions": {
-		"uuid": {
-			"type": "string",
-			"anyOf": [
-				{ "format": "uuid" },
-				{ "pattern": "^bk:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$" }
-			]
-		},
-		"uuidArray": {
-			"type" : "array",
-			"items": {
-				"$ref": "#/definitions/uuid"
-			},
-			"uniqueItems": true
-		},
-		"base": {
-			"properties": {
-				"id": {
-					"$ref": "#/definitions/uuid"
-				},
-				"title": {
-					"type": "string"
-				},
-				"description": {
-					"type": "string"
-				},
-				"replacedBy": {
-					"$ref": "#/definitions/uuidArray"
-				},
-				"replaces" : {
-					"$ref": "#/definitions/uuidArray"
-				}
-			},
-			"required": ["id","title"]
-		},
 		"inhoud": {
-			"allOf": [ { "$ref": "#/definitions/base" } ],
+			"allOf": [ { "$ref": "https://opendata.slo.nl/curriculum/schemas/curriculum-doelen/context.json#/definitions/base" } ],
 			"properties": {
 				"kerndoel_id": {
 					"allOf": [
 						{
-							"$ref": "#/definitions/uuidArray"
+							"$ref": "https://opendata.slo.nl/curriculum/schemas/curriculum-doelen/context.json#/definitions/uuidArray"
 						},
 						{
 							"items": {
@@ -52,13 +18,23 @@
 			}
 		},
 		"kerndoel": {
-			"$ref": "#/definitions/base"
+			"allOf": [ { "$ref": "https://opendata.slo.nl/curriculum/schemas/curriculum-doelen/context.json#/definitions/base" } ],
+			"properties": {
+				"description": { "type": "string" },
+				"prefix": { "type": "string" }
+			},
+			"niveau_id": {
+				"allOf": [
+					{ "$ref": "https://opendata.slo.nl/curriculum/schemas/curriculum-doelen/context.json#/definitions/uuidArray" },
+					{ "items": { "itemTypeReference": "https://opendata.slo.nl/curriculum/schemas/curriculum-doelen/context.json#/definitions/niveau" } }
+				]
+			}
 		},
 		"kerndoel_domein": {
 			"$ref": "#/definitions/inhoud"
 		},
 		"kerndoel_uitstroomprofiel": {
-			"$ref": "#/definitions/base"
+			"$ref": "https://opendata.slo.nl/curriculum/schemas/curriculum-doelen/context.json#/definitions/base"
 		},
 		"kerndoel_vakleergebied": {
 			"allOf": [
@@ -69,28 +45,23 @@
 					"properties": {
 						"kerndoel_domein_id": {
 							"allOf": [
-								{ "$ref": "#/definitions/uuidArray" },
+								{ "$ref": "https://opendata.slo.nl/curriculum/schemas/curriculum-doelen/context.json#/definitions/uuidArray" },
 								{ "items": { "itemTypeReference": "#/definitions/kerndoel_domein" } }
 							]
 						},
 						"kerndoel_uitstroomprofiel_id": {
 							"allOf": [
-								{ "$ref": "#/definitions/uuidArray" },
+								{ "$ref": "https://opendata.slo.nl/curriculum/schemas/curriculum-doelen/context.json#/definitions/uuidArray" },
 								{ "items": { "itemTypeReference": "#/definitions/kerndoel_uitstroomprofiel" } }
 							]
 						}
 					}
 				}
-			],
-			"anyOf": [
-				{ "required": ["id","title","kerndoel_domein_id"] },
-				{ "required": ["id","title","kerndoel_id"] },
-				{ "required": ["id","title","kerndoel_uitstroomprofiel_id"] }
-			]				
+			]
 		}
 	},
 	"$id": "https://opendata.slo.nl/curriculum/schemas/curriculum-kerndoelen/context.json",
-	"$schema": "https://json-schema.org/draft-07/schema#",
+	"$schema": "http://json-schema.org/draft-07/schema#",
 	"type": "object",
 	"properties": {
 		"kerndoel": {
